@@ -16,19 +16,19 @@ variables:
 
 # Build the app for .NET 6 framework
 steps:
+  - task: UseDotNet@2
+    inputs:
+      version: $(dotNetVersion)
+      includePreviewVersions: true # Required for preview versions
+  - script: dotnet build --configuration $(buildConfiguration)
+    displayName: "Build .NET 6 Application"
+
   - task: DotNetCoreCLI@2
     inputs:
       command: test
       projects: "**/*Test/*.csproj"
       arguments: "--configuration $(buildConfiguration)"
-    displayName: "Running unit tests"
-
-  - task: UseDotNet@2
-    inputs:
-      version: $(dotNetVersion)
-      includePreviewVersions: true
-  - script: dotnet build --configuration $(buildConfiguration)
-    displayName: "Build .NET 6 Application"
+    displayName: "dotnet test"
 
   # Publish it as .NET 6 self-contained application for linux runtime
   - task: DotNetCoreCLI@2
