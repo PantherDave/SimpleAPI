@@ -16,6 +16,13 @@ variables:
 
 # Build the app for .NET 6 framework
 steps:
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: test
+      projects: "**/*Test/*.csproj"
+      arguments: "--configuration $(buildConfiguration)"
+    displayName: "Running unit tests"
+
   - task: UseDotNet@2
     inputs:
       version: $(dotNetVersion)
