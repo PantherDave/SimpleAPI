@@ -30,3 +30,14 @@ steps:
 
   - script: dotnet build --configuration $(buildConfiguration)
     displayName: "Build .NET 6 Application"
+
+  - task: DotNetCoreCLI@2
+    displayName: "dotnet publish --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)"
+    inputs:
+      command: publish
+      publishWebProjects: false
+      projects: "src/SimpleAPI/SimpleAPI.csproj"
+      arguments: "--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)"
+
+  - task: PublishBuildArtifacts@1
+    displayName: "publish artifacts"
