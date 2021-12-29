@@ -20,8 +20,6 @@ steps:
     inputs:
       version: $(dotNetVersion)
       includePreviewVersions: true # Required for preview versions
-  - script: dotnet build --configuration $(buildConfiguration)
-    displayName: "Build .NET 6 Application"
 
   - task: DotNetCoreCLI@2
     inputs:
@@ -30,10 +28,5 @@ steps:
       arguments: "--configuration $(buildConfiguration)"
     displayName: "dotnet test"
 
-  # Publish it as .NET 6 self-contained application for linux runtime
-  - task: DotNetCoreCLI@2
-    inputs:
-      command: publish
-      publishWebProjects: True
-      arguments: "--configuration $(BuildConfiguration) --framework $(dotNetFramework) --runtime $(targetRuntime) --self-contained --output $(Build.ArtifactStagingDirectory)"
-      zipAfterPublish: True
+  - script: dotnet build --configuration $(buildConfiguration)
+    displayName: "Build .NET 6 Application"
